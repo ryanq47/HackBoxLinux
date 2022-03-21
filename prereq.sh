@@ -1,4 +1,3 @@
-#just a test
 #run me as sudo
 #pip install pipwin
 

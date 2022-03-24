@@ -27,6 +27,8 @@ print("""
 OPTIONS 
 a)Intrusion Detection System
 b)SOMETHING
+
+s) Scriptrunner - Defensive Scripts
 ---
 h)Help
 q)Exit/Quit
@@ -47,6 +49,9 @@ while True:
 
        elif statement=="b":
               print("\n - -")
+       elif statement=="s":
+              os.system('clear')
+              exec(open('Modules/defense/scriptrunner/scriptrunner.py').read()) 
 #-------------Movement -------------------------#
        elif statement=="h":
               print("\nHelp")

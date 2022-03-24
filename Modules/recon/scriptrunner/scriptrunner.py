@@ -35,12 +35,12 @@ print('Current Available Scripts: ')
 # ------ script sorter ------- #
 print('--')
 print('Shell Files:')
-os.system('ls Modules/defense/scriptrunner/scripts/ | grep .sh')
+os.system('ls Modules/recon/scriptrunner/scripts/ | grep .sh')
 
 print('--')
 
 print('Python Files:')
-os.system('ls Modules/defense/scriptrunner/scripts/ | grep .py')
+os.system('ls Modules/recon/scriptrunner/scripts/ | grep .py')
 print('--')
 
 print('SCRIPTRUNNER: What should I run?')
@@ -52,14 +52,14 @@ statement = input("").lower()
 while True:
     if '.py' in statement:
         print('running', statement)
-        pyscript = "python3 Modules/defense/scriptrunner/scripts/{0}".format(statement)
+        pyscript = "python3 Modules/recon/scriptrunner/scripts/{0}".format(statement)
         os.system(pyscript)
         print('SCRIPTRUNNER: What should I run?')
 
     # -- Shell --
     elif '.sh' in statement:
         print('running', statement)
-        shscript = "Modules/defense/scriptrunner/scripts/{0}".format(statement)
+        shscript = "Modules/recon/scriptrunner/scripts/{0}".format(statement)
         os.system(shscript)
 
 ## notes: to run a .sh using os.system, define a variable (cmd) then insert command and add {0} for the variable

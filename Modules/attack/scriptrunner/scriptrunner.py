@@ -1,6 +1,6 @@
 import datetime
-import wikipedia
-import webbrowser
+#import wikipedia
+#import webbrowser
 #import pynput.keyboard 
 import os
 #import sys
@@ -10,7 +10,7 @@ import subprocess
 #import wolframalpha
 import json
 import requests
-import glob
+#import glob
 
 #file imports
 print(r"""
@@ -30,71 +30,42 @@ print(r"""
 print('SCRIPTRUNNER! (1.0) An easy script running tool! Type help for help, or a script name to run it! EX: test.bat')
 print('Current Available Scripts: ')
 
-print('--')
-#script sorter
-print('Batch Files:')
-print(glob.glob("Modules\programs\scriptrunner\scripts/*.bat"))
-#os.path.basename('Modules\programs\scriptrunner\scripts\*.bat')
 
-#map(os.path.basename, glob.glob("Modules\programs\scriptrunner\scripts\*"))
-print('--')
 
-print('PowerShell Files:')
-print(glob.glob("scripts/*.ps"))
-print(glob.glob("Modules\programs\scriptrunner\scripts/*.ps1"))
+# ------ script sorter ------- #
+print('--')
+print('Shell Files:')
+os.system('ls Modules/attack/scriptrunner/scripts/ | grep .sh')
+
 print('--')
 
 print('Python Files:')
-print(glob.glob("Modules\programs\scriptrunner\scripts/*.py"))
+os.system('ls Modules/attack/scriptrunner/scripts/ | grep .py')
 print('--')
 
 print('SCRIPTRUNNER: What should I run?')
 statement = input("").lower()
 
 ## make it autodisplay availabel scripts in directory
+# ------ While True Loop ------- #
 
 while True:
-    # -- BATCH --
-    if '.bat' in statement:
+    if '.py' in statement:
         print('running', statement)
-        subprocess.Popen('start Modules\programs\scriptrunner\scripts\\{}'.format(statement), shell=True)
-        print('SCRIPTRUNNER: What should I run?')
-        
-    # -- PowerShell --
-    elif '.ps' in statement:
-        print('running', statement)
-        subprocess.Popen('powershell .\\Modules\programs\scriptrunner\scripts\\{}'.format(statement), shell=True)
+        pyscript = "python3 Modules/attack/scriptrunner/scripts/{0}".format(statement)
+        os.system(pyscript)
         print('SCRIPTRUNNER: What should I run?')
 
-    elif '.ps1' in statement:
+    # -- Shell --
+    elif '.sh' in statement:
         print('running', statement)
-        subprocess.Popen('powershell .\\Modules\programs\scriptrunner\scripts\\{}'.format(statement), shell=True)
-        print('SCRIPTRUNNER: What should I run?')
-    elif '.py' in statement:
-        print('running', statement)
-        subprocess.Popen('python Modules\programs\scriptrunner\scripts\\{}'.format(statement), shell=True)
-        print('SCRIPTRUNNER: What should I run?')
+        shscript = "Modules/attack/scriptrunner/scripts/{0}".format(statement)
+        os.system(shscript)
 
-    # -- Execution Policy
-    elif statement == 'ps policy bypass' :
-        # Set-ExecutionPolicy -excecutionpolicy all -Scope CurrentUser <-- command to allow PS scripts to be run
-        subprocess.Popen('powershell Set-ExecutionPolicy -executionpolicy bypass -Scope CurrentUser', shell=True)
-        print('PS is now allowed to ALL run .ps, and .ps1 scripts - potentially dangerous')
-        print('SCRIPTRUNNER: What should I run?')
-    elif statement == 'ps policy allsigned' :
-        # Set-ExecutionPolicy -excecutionpolicy all -Scope CurrentUser <-- command to allow PS scripts to be run
-        subprocess.Popen('powershell Set-ExecutionPolicy -executionpolicy all -Scope CurrentUser', shell=True)
-        print('PS is now allowed to run signed .ps, and .ps1 scripts')
-        print('SCRIPTRUNNER: What should I run?')
-    elif statement == 'ps policy restricted':
-        subprocess.Popen('powershell Set-ExecutionPolicy -executionpolicy restricted -Scope CurrentUser', shell=True)
-        print('SCRIPTRUNNER: What should I run?')
-        print('PS is now restricted from running .ps, and .ps1 scripts')
+## notes: to run a .sh using os.system, define a variable (cmd) then insert command and add {0} for the variable
+## {1}, {2}... for more variables. then add .format(var) so it knows those are variables
 
-    elif statement == 'ps policy default':
-        subprocess.Popen('powershell Set-ExecutionPolicy -executionpolicy undefined -Scope CurrentUser', shell=True)
-        print('SCRIPTRUNNER: What should I run?')
-        print('PS Policy is now set to default')
+
 
     elif 'help' in statement:
         print("-----------------------------------------------------------------")

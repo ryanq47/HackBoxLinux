@@ -1,7 +1,11 @@
 #run me as sudo
-#pip install pipwin
 
-#pip3 install --upgrade pip setuptools wheel
+echo "Enter your package manager"
+read packman
+## Program remove
+
+$packman remove thc-hydra
+#$packman remove python3 -- leaving python because it's usually needed on linux for something
 
 #python -m pip uninstall speechrecognition
 python -m pip uninstall pyttsx3

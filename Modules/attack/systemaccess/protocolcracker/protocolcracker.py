@@ -29,7 +29,7 @@ while True:
 		print("\nProtocol Cracker:")
 
 		while True:
-
+			os.system('cd Modules/attack/systemaccess/protocolcracker/')
 			print('Enter Username/Username File Path')
 			print( '---------------------------------')
 			var = input("")

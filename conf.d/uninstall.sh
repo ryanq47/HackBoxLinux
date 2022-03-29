@@ -5,6 +5,7 @@ read packman
 ## Program remove
 
 $packman remove thc-hydra
+$packman remove dsniff
 #$packman remove python3 -- leaving python because it's usually needed on linux for something
 
 #python -m pip uninstall speechrecognition

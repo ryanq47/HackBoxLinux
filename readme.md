@@ -6,22 +6,22 @@ Note: I am learning python while making this program, do not assume in any way s
 
 Alright now to the fun stuff:
 
-Attack Mode: For offensive security
-    ### --- System Access --- ###: All Sorts of ways to get into a system!
-        -- Protocol Cracker: A hydra based bruteforce program to brute force logins, Note!: It is fairly slow and is best to use on simple/default passwords only
-    ## --- Denial of Service --- ###: Preventing people from being productive
-        -- MITM ArpSpoof: A dsniff powered tool that will perform a MITM Arp attack, denying any internet to the selected device 
-            #Pro Tip: This works on routers too...  with varying effects. Have fun! (Use the router's IP as the target address) 
+Attack Mode: For offensive security <br/>
+    ### --- System Access --- ###: All Sorts of ways to get into a system! <br/>
+        -- Protocol Cracker: A hydra based bruteforce program to brute force logins, Note!: It is fairly slow and is best to use on simple/default passwords only <br/>
+    ## --- Denial of Service --- ###: Preventing people from being productive <br/>
+        -- MITM ArpSpoof: A dsniff powered tool that will perform a MITM Arp attack, denying any internet to the selected device  <br/>
+            #Pro Tip: This works on routers too...  with varying effects. Have fun! (Use the router's IP as the target address) <br/>
 
-    ### --- Script Runner --- ###: A module with preconfigured security scripts!
-        -- A spare shell version of ArpSpoof is here (It was originally coded in bash then converted to python)
+    ### --- Script Runner --- ###: A module with preconfigured security scripts! <br/>
+        -- A spare shell version of ArpSpoof is here (It was originally coded in bash then converted to python) <br/>
 
-Defense Mode: For defensive security 
-    ### --- Script Runner --- ###: A module with preconfigured security scripts!
-        -- fail2ban.sh: An interactive fail2ban install & setup script. 
+Defense Mode: For defensive security <br/>
+    ### --- Script Runner --- ###: A module with preconfigured security scripts! <br/>
+        -- fail2ban.sh: An interactive fail2ban install & setup script.  <br/>
 
-Recon Mode: For reconnaissance
-    ### --- Surveillance --- ###: A set of modules based around Open Source Intellegence (OSINT)
-        -- IP-CAM: A collection of publicy accessible cameras in hundreds of countries 
-        -- UserCheck: A simple module that will check where a username is being used
-    ### --- Keylogger --- ###: Uhhh it logs keys locally, be careful using this. 
+Recon Mode: For reconnaissance <br/>
+    ### --- Surveillance --- ###: A set of modules based around Open Source Intellegence (OSINT) <br/>
+        -- IP-CAM: A collection of publicy accessible cameras in hundreds of countries <br/>
+        -- UserCheck: A simple module that will check where a username is being used <br/>
+    ### --- Keylogger --- ###: Uhhh it logs keys locally, be careful using this. <br/>

@@ -7,18 +7,18 @@ Note: I am learning python while making this program, do not assume in any way s
 Alright now to the fun stuff:
 
 ### Attack Mode: For offensive security <br/>
--     System Access: All Sorts of ways to get into a system! <br/>
+-     System Access: All Sorts of ways to get into a system! 
         -- Protocol Cracker: A hydra based bruteforce program to brute force logins, Note!: It is fairly slow and is best to use on simple/default passwords only 
 
--    Denial of Service: Preventing people from being productive <br/>
+-    Denial of Service: Preventing people from being productive 
         -- MITM ArpSpoof: A dsniff powered tool that will perform a MITM Arp attack, denying any internet to the selected device  
-            #Pro Tip: This works on routers too...  with varying effects. Have fun! (Use the router's IP as the target address) 
+            Pro Tip: This works on routers too...  with varying effects. Have fun! (Use the router's IP as the target address) 
 
 -    Script Runner: A module with preconfigured security scripts! <br/>
         -- A spare shell version of ArpSpoof is here (It was originally coded in bash then converted to python)
           
 
-###Defense Mode: For defensive security <br/>
+### Defense Mode: For defensive security <br/>
 -    Script Runner: A module with preconfigured security scripts! <br/>
         -- fail2ban.sh: An interactive fail2ban install & setup script.  
 

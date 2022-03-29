@@ -11,6 +11,7 @@ print(r"""
             """)
 
 print('USERCHECK! Find where a username is being used! Type help for help, or type in a username!')
+print('Example: check JohnDoe195')
 
 statement = input("").lower()
 
@@ -31,7 +32,7 @@ while True:
         #print("'NOT: enter 'socialsearch' to enter socialsearch at any time!")
         print("-----------------------------------------------------------------")
 
-        print("USERCHECK: Anyone else you wanna spy on creep?")
+        print("USERCHECK: Anyone else you wanna spy on?")
 
     #elif statement == 'socialsearch':   
         #print('USERCHECK: Opening SocialSearch')

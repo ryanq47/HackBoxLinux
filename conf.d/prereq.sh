@@ -3,7 +3,7 @@
 echo "Enter your package manager"
 read packman
 ## Program install
-
+$packman install dsniff
 $packman install thc-hydra
 $packman install python3
 

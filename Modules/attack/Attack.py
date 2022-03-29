@@ -45,7 +45,16 @@ while True:
 # ----------- System Access ---------------------#
        if statement=="a":
               os.system('clear')
-              print("\nSystem Access:")
+              print(r"""
+ _____              _                      ___                            
+/  ___|            | |                    / _ \                           
+\ `--.  _   _  ___ | |_  ___  _ __ ___   / /_\ \  ___  ___  ___  ___  ___ 
+ `--. \| | | |/ __|| __|/ _ \| '_ ` _ \  |  _  | / __|/ __|/ _ \/ __|/ __|
+/\__/ /| |_| |\__ \| |_|  __/| | | | | | | | | || (__| (__|  __/\__ \\__ \
+\____/  \__, ||___/ \__|\___||_| |_| |_| \_| |_/ \___|\___|\___||___/|___/
+         __/ |                                                            
+        |___/  
+              """)
               while True:   
                      
                      print("""
@@ -63,6 +72,54 @@ q) quit
                      if statement2=="a":
                             os.system('clear')
                             exec(open('Modules/attack/systemaccess/protocolcracker/protocolcracker.py').read()) 
+
+                     elif statement2=="b":
+                            os.system('clear')
+                            exec(open('modules/').read())   
+
+                     elif statement2=="c":
+                            os.system('clear')
+                            exec(open('modules/').read()) 
+
+                     elif statement2=="d":
+                            os.system('clear')
+                            exec(open('Modules/').read())  
+                            ans = None
+                     elif statement2=="q":
+                            os.system('clear')
+                            exec(open('Modules/attack/Attack.py').read())
+                     else:
+                            print("\n Not Valid Choice Try again")
+                     statement2 = input("").lower()
+
+# ----------- Denial Of Service ---------------------#
+       if statement=="b":
+              os.system('clear')
+              print(r"""
+______              _         _   _____   __   _____                     _            
+|  _  \            (_)       | | |  _  | / _| /  ___|                   (_)           
+| | | | ___  _ __   _   __ _ | | | | | || |_  \ `--.   ___  _ __ __   __ _   ___  ___ 
+| | | |/ _ \| '_ \ | | / _` || | | | | ||  _|  `--. \ / _ \| '__|\ \ / /| | / __|/ _ \
+| |/ /|  __/| | | || || (_| || | \ \_/ /| |   /\__/ /|  __/| |    \ V / | || (__|  __/
+|___/  \___||_| |_||_| \__,_||_|  \___/ |_|   \____/  \___||_|     \_/  |_| \___|\___|
+              """)
+              while True:   
+                     
+                     print("""
+
+a)MITM Arp Spoof
+b)*Coming Soon*
+c)*Coming Soon* 
+d)*Coming Soon*
+---------------
+
+q) quit
+
+                                   """)
+                     statement2 = input("").lower()
+                     if statement2=="a":
+                            os.system('clear')
+                            exec(open('Modules/attack/DOS/arpspoof.py').read()) 
 
                      elif statement2=="b":
                             os.system('clear')

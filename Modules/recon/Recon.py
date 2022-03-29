@@ -46,27 +46,30 @@ while True:
               #ans=raw_input
        #ans=raw_input("What would you like to do? ")
        if statement=="a":
+              os.system('clear')
               print("\nSurveillance options:")
               while True:   
                      
                      print("""
 
 a)IP-CAM
-b)SocialSearch
-c)UserCheck
-d)Back
+b)UserCheck
+------------
+
+q) quit
+
 
 
                                    """)
                      statement2 = input("").lower()
                      if statement2=="a":
                             exec(open('modules/recon/surveillance/ipcam.py').read())            
+                     #elif statement2=="b":
+                            #exec(open('modules/recon/surveillance/socialsearch.py').read())   
                      elif statement2=="b":
-                            exec(open('modules/recon/surveillance/socialsearch.py').read())   
-                     elif statement2=="c":
                             exec(open('modules/recon/surveillance/usercheck.py').read())   
-                     elif statement2=="d":
-                            exec(open('Modules/recon/Recon.py').read())  
+                     elif statement2=="c":
+                            exec(open('###').read())  
                             ans = None
                      else:
                             print("\n Not Valid Choice Try again")

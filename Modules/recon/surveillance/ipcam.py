@@ -11,7 +11,8 @@ print(r"""
                 """)
 
 print('IPCAM! Find Publicly available cameras on the internet! Type Help For help!')
-
+print('Search Options: Country (Alpha-2 codes, ex AU for Australia), Place, City, Cameratype')
+print('Syntax: "SearchOption" "Location/country" - ex "Country AU", or "City Dallas"')
 statement = input("").lower()
 
 while True:

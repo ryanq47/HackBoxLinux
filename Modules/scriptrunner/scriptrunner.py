@@ -13,6 +13,7 @@ import requests
 #import glob
 
 #file imports
+os.system('clear')
 print(r"""
  _____ _____ ______ ___________ ___________ _   _ _   _  _   _  ___________    __        _____ 
 /  ___/  __ \| ___ \_   _| ___ \_   _| ___ \ | | | \ | || \ | ||  ___| ___ \  /  |      |  _  |
@@ -27,20 +28,20 @@ print(r"""
                                                                             
                                                                             
 """)
-print('SCRIPTRUNNER! (1.0) An easy script running tool! Type help for help, or a script name to run it! EX: test.bat')
+print('SCRIPTRUNNER! (1.0) An easy script running tool! Type help for help, or a script name to run it! EX: "test.bat" - No ./ required!')
 print('Current Available Scripts: ')
 
 
 
 # ------ script sorter ------- #
-print('--')
-print('Shell Files:')
-os.system('ls Modules/defense/scriptrunner/scripts/ | grep .sh')
+
+print('### --- Shell Files: --- ###')
+os.system('ls Modules/scriptrunner/scripts/ | grep .sh')
 
 print('--')
 
-print('Python Files:')
-os.system('ls Modules/defense/scriptrunner/scripts/ | grep .py')
+print('### --- Python Files: --- ###')
+os.system('ls Modules/scriptrunner/scripts/ | grep .py')
 print('--')
 
 print('SCRIPTRUNNER: What should I run?')
@@ -51,17 +52,22 @@ statement = input("").lower()
 
 while True:
     if '.py' in statement:
+        print("")
         print('running', statement)
-        pyscript = "python3 Modules/defense/scriptrunner/scripts/{0}".format(statement)
+        pyscript = "python3 Modules/scriptrunner/scripts/{0}".format(statement)
         os.system(pyscript)
+        print("")
         print('SCRIPTRUNNER: What should I run?')
 
     # -- Shell --
     elif '.sh' in statement:
+        print("")
         print('running', statement)
-        shscript = "Modules/defense/scriptrunner/scripts/{0}".format(statement)
-        os.system(shscript)
 
+        os.system('bash Modules/scriptrunner/scripts/'+statement)
+        print("")
+
+        #os.system('./Modules/scriptrunner/scripts/pingsweep.sh')
 ## notes: to run a .sh using os.system, define a variable (cmd) then insert command and add {0} for the variable
 ## {1}, {2}... for more variables. then add .format(var) so it knows those are variables
 
@@ -72,26 +78,28 @@ while True:
         print(" --- General Config ---")
         print('')
         print("'SCRIPTNAME.FILETYPE': Runs script if found in script folder")
-        print(" EX: 'test.bat")
+        print(" EX: 'test.sh")
         print('')
         print(" --- Permissions ---")
         print('')
-        print(" --- useful for if you have Poweshell script execution disabled")
-        print("'ps policy bypass'                       : Allows ALL PS scripts to be run on local user - Potentially dangerous!!")
+        print(" Allowing a script to be run:")
+        print(" chmod +x SCRIPTNAME.sh ")
         print('')
-        print("'ps policy all'                       : Allows all SIGNED PS scripts to be run on local user")
-        print('')
-        print("'ps policy restricted'                        : restricts PS scripts from being run ")
-        print('')
-        print("'ps policy default'                  : Sets default settings for PS scripts, may lead to different results based") 
-        print("                                       on Domain settings")
+        print(" Running said script:")
+        print(" ./SCRIPTNAME.sh ")
         print("-----------------------------------------------------------------")
 
         print("SCRIPTRUNNER: Anything I can do for you?")
     elif statement == 'exit':
         print('SCRIPTRUNNERI: Exiting SCRIPTRUNNER')
-        
-        exec(open('HackBox.py').read()) 
+
+        #This is a loop that allows for any value in CMD to be checked, and run MUST GO LAST
+    elif any((c in NETWORK) for c in NETWORK):
+        print('---------------------------------------------------')
+        os.system(statement)
+        print('---------------------------------------------------')
+        print("Anything else I can do for you?")
+
     else:
         print('SCRIPTRUNNER: Invalid Paramater, type help for help, or exit to exit')
 

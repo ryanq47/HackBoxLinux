@@ -1,13 +1,5 @@
 ## arpspoof.
-echo 
-  ___                 _____                        __ 
- / _ \               /  ___|                      / _|
-/ /_\ \ _ __  _ __   \ `--.  _ __    ___    ___  | |_ 
-|  _  || '__|| '_ \   `--. \| '_ \  / _ \  / _ \ |  _|
-| | | || |   | |_) | /\__/ /| |_) || (_) || (_) || |  
-\_| |_/|_|   | .__/  \____/ | .__/  \___/  \___/ |_|  
-             | |            | |                       
-             |_|            |_|                      
+echo "arpspoof script"
                                                         
 echo ''
 echo "For this attack to work, you must be on the same network and subnet as your target!"
@@ -17,7 +9,7 @@ echo '----------'
 route -n
 echo '----------'
 
-echo "Enter the network's Default Gateway (listed above)"
+echo "Enter the networks Default Gateway (listed above)"
 read defaultgateway
 
 echo ''

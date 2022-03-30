@@ -29,7 +29,7 @@ OPTIONS
 a)Surveillance
 b)Keylogger
 
-s) Scriptrunner- Recon Scripts
+
 ---
 h)Help
 q)Exit/Quit
@@ -77,9 +77,7 @@ q) quit
 
        elif statement=="b":
               print("\nKeylogger")
-       elif statement=="s":
-              os.system('clear')
-              exec(open('Modules/recon/scriptrunner/scriptrunner.py').read()) 
+
 
 # ------------ Movement----------------------#
        elif statement=="c":

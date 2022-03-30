@@ -29,7 +29,6 @@ OPTIONS
 a) System Access - Password Cracking, Backdoors, and more #(DELME; passwd dumper? - netcat backdoor for sure)
 b) Denial Of Service
 
-s) Scriptrunner - Offensive scripts
 ---
 h)Help
 q)Exit/Quit
@@ -123,7 +122,7 @@ q) quit
 
                      elif statement2=="b":
                             os.system('clear')
-                            exec(open('modules/').read())   
+                            exec(open('Modules/attack/DOS/').read())   
 
                      elif statement2=="c":
                             os.system('clear')
@@ -143,9 +142,7 @@ q) quit
        elif statement=="b":
               os.system("clear")
               print("Denial Of Service:")
-       elif statement=="s":
-              os.system("clear")
-              exec(open('Modules/attack/scriptrunner/scriptrunner.py').read()) 
+
 
 # ----------- moving around ---------------------#
        elif statement=="h":

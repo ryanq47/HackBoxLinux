@@ -61,7 +61,7 @@ while True:
 a)Protocol Cracker
 b)Netcat Backdoor - In Progress
 c)*Coming Soon* ( HashCat? - set up similar to protocl cracker?)
-d)*Coming Soon*
+d)AutoTack
 ---------------
 
 q) quit
@@ -82,7 +82,7 @@ q) quit
 
                      elif statement2=="d":
                             os.system('clear')
-                            exec(open('Modules/').read())  
+                            exec(open('Modules/attack/autotack/autotack.py').read())  
                             ans = None
                      elif statement2=="q":
                             os.system('clear')

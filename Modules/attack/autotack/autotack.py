@@ -41,13 +41,16 @@ a) Scan and Can (Nmap + Common Password Bruteforce)
 b) ???
 
 
+
 i) Install: Run First time only! This creates the database
     Note: type 'delete db' to drop the DB
+
+
 ---
 h)Help
 q)Exit/Quit
 ---
-              """)
+Type in IP address to view info:              """)
 
 
 statement = input("").lower()
@@ -58,7 +61,7 @@ statement = input("").lower()
 
 while True:
     ## reload statement/variable, needs to be at top so accessible to all further down
-    if statment == 'reload':
+    if statement == 'reload':
         os.system('python3 /Modules/attack/AutoTack/autotack.py')
         reload = os.system('python3 /Modules/attack/AutoTack/autotack.py')
 
@@ -91,11 +94,21 @@ while True:
         mydb.commit()
         print("----------")
 
-    elif 'view ip' in statement:
-        ipsummon = input()
-        mycursor.execute("USE hackbox_ip_db")
-        mycursor.execute("SELECT * FROM " + ipsummon)
+    elif '.' in statement:
+        ipsummon = statement
+        #ipsummon = '1'
+        #print(scanresult)
+        ## convert '.' to '_' due to sql not accepting '.'
+        convertback = ipsummon
+        convertback = convertback.replace('.','_')
+        ipsummoninput = convertback
+        #print(ipsummoninput)
 
+        mycursor.execute("USE hackbox_ip_db")
+        mycursor.execute("SELECT * FROM " + ipsummoninput)
+
+        ## need to beable to put this ^^ in variable and then grep the output for only the numbers ports and type (tcp/udp) so that can be sent to a attack program
+        print(dbpull)
         # This code below allows all data to be viewed in the db
         for x in mycursor:
             print (x)

@@ -3,10 +3,15 @@
 ## AutoTack - Auto scan and attack Module
 ## will eventually be integrated with a database (mariadb?) for storing scanned IP addresses 
 
+
+## notes: db change: hackbox_db > 127.0.0.1 (or other IP) etc > each ip has a list of ports
+
 ## Dependencies: Nmap
 
 import os
 import mysql.connector
+import subprocess as sp
+
 ## -- SQL connection -- ##
 mydb = mysql.connector.connect(
   host="localhost",
@@ -15,6 +20,7 @@ mydb = mysql.connector.connect(
   )
 mycursor = mydb.cursor()
 ## -- -- ##
+os.system('systemctl start mariadb')
 os.system('clear')
 
 print(r"""
@@ -25,6 +31,8 @@ print(r"""
 | | | | |_| | | | \ \_/ /      | || | | | \__/\| |\  \
 \_| |_/\___/  \_/  \___/       \_/\_| |_/\____/\_| \_/
         """)
+
+print("DevNote: The MariaDB formatting is a little wonky at the moment, will get fixed eventually ")
 
 ## --- Menu --- ###
 print("""
@@ -49,21 +57,63 @@ statement = input("").lower()
 
 
 while True:
-    if statement =='a':
+    ## reload statement/variable, needs to be at top so accessible to all further down
+    if statment == 'reload':
+        os.system('python3 /Modules/attack/AutoTack/autotack.py')
+        reload = os.system('python3 /Modules/attack/AutoTack/autotack.py')
+
+## --- interface --- ###
+    elif statement =='a':
         targetIP = input('Enter target IP address:')
         #print(targetIP)
         nmapFLAGS = input('Enter additional NMAP flags - default are -sS and -Pn; syntax: "-a -T 4"')
+        print("This may take a minute...")
+        print("-----Open Ports-----")
+        ## This code is running nmap scan, and saving it as the variable scanresult (need to import subprecess)
+        ## note: stdout is piped through grep to filter by only numbers, then get rid of the "starting Nmap" message becuase it takes up alot of space
+        scanresult = sp.getoutput('nmap ' + targetIP +' ' + nmapFLAGS + ' -Pn | grep -e "[0-9]*/" | grep -v "Starting"')
+        ## for exluding everyhting but port numbers: |grep -o "[0-9]*"
+
+        print(scanresult)
+        ## convert '.' to '_' due to sql not accepting '.'
+        convert = targetIP
+        convert = convert.replace('.','_')
+        targetIPinput = convert
+        #targetipconvert = print(int(convert))
+
+
+
+## --- Sql Interaction --- ##
+        mycursor.execute("USE hackbox_ip_db")
+        #mycursor.execute("INSERT INTO ip_addresses (ipaddress, port) VALUES (" + targetIP + "," + scanresult + ");")
+        mycursor.execute("CREATE TABLE " + targetIPinput + " (OpenPorts text)")
+        mycursor.execute("INSERT INTO " + targetIPinput + "(OpenPorts) VALUES ('" + scanresult+ "')")
+        mydb.commit()
         print("----------")
-        os.system('nmap ' + targetIP + nmapFLAGS + ' -sS -Pn  |tee -a db/scannedIPs/' + targetIP + '.db') ##Store result in database - this is a temporary solution
-        #os.system('echo stdout | grep / >> db.txt')
-        print("----------")
-        #print(__file__)
-        #os.system('pwd')
+
+    elif 'view ip' in statement:
+        ipsummon = input()
+        mycursor.execute("USE hackbox_ip_db")
+        mycursor.execute("SELECT * FROM " + ipsummon)
+
+        # This code below allows all data to be viewed in the db
+        for x in mycursor:
+            print (x)
+
+
     elif statement =='delete db':
-        mycursor.execute("DROP DATABASE hackbox_db")
+        print("Are you sure you want to delete the DB? (y/N)")
+        deletedb = input().lower()
+        if 'y' in deletedb:
+            mycursor.execute("DROP DATABASE hackbox_ip_db")
+        elif 'n' in deletedb:
+            reload
+        else:
+            reload
         #mycursor.execute("SHOW DATABASES")
         ## add a confirmation prompt here
-        print('database hackbox_db has been dropped')
+
+        print('database hackbox_ip_db has been dropped')
         for x in mycursor:
             print (x)
 
@@ -72,19 +122,22 @@ while True:
     elif statement =='i':
 
         #Creating Database
-        mycursor.execute("CREATE DATABASE hackbox_db")
-        mycursor.execute("USE hackbox_db")
-        mycursor.execute("CREATE TABLE ip_addresses (ipaddress text, port text, time text )")
-        mycursor.execute("INSERT INTO ip_addresses (ipaddress, port) VALUES ('123.456.789.0', '69');")
+        mycursor.execute("CREATE DATABASE hackbox_ip_db")
+        mycursor.execute("USE hackbox_ip_db")
+        # TEST TABLE #mycursor.execute("CREATE TABLE 127_0_0_1")#(ipaddress text, port text, time text )")
+        #mycursor.execute("INSERT INTO ip_addresses (ipaddress, port) VALUES ('123.456.789.0', '69');")
 
 
         ## cleanup
         mydb.commit()
-        mydb.close()
-        mycursor.close()
+        ## these 2 are commented out becuase it closes cursor, which causes the need for a program restart. work on solution/notice later.
+        #mydb.close()
+        #mycursor.close()
         for x in mycursor:
             print (x)
         print('Database Created!')
+
+
     else:
         print('ya broke it doofus')
     statement = input("").lower()

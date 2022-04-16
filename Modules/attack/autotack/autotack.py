@@ -66,16 +66,23 @@ while True:
         reload = os.system('python3 /Modules/attack/AutoTack/autotack.py')
 
 ## --- interface --- ###
+
+    ## --- entering into database + scan --- ##
+
     elif statement =='a':
         targetIP = input('Enter target IP address:')
         #print(targetIP)
         nmapFLAGS = input('Enter additional NMAP flags - default are -sS and -Pn; syntax: "-a -T 4"')
         print("This may take a minute...")
         print("-----Open Ports-----")
+
         ## This code is running nmap scan, and saving it as the variable scanresult (need to import subprecess)
         ## note: stdout is piped through grep to filter by only numbers, then get rid of the "starting Nmap" message becuase it takes up alot of space
+
         scanresult = sp.getoutput('nmap ' + targetIP +' ' + nmapFLAGS + ' -Pn | grep -e "[0-9]*/" | grep -v "Starting"')
         ## for exluding everyhting but port numbers: |grep -o "[0-9]*"
+
+    ## -- conversion from . to _ -- ##
 
         print(scanresult)
         ## convert '.' to '_' due to sql not accepting '.'
@@ -86,13 +93,39 @@ while True:
 
 
 
-## --- Sql Interaction --- ##
+    ## --- Sql Interaction --- ##
+
         mycursor.execute("USE hackbox_ip_db")
         #mycursor.execute("INSERT INTO ip_addresses (ipaddress, port) VALUES (" + targetIP + "," + scanresult + ");")
+
         mycursor.execute("CREATE TABLE " + targetIPinput + " (OpenPorts text)")
         mycursor.execute("INSERT INTO " + targetIPinput + "(OpenPorts) VALUES ('" + scanresult+ "')")
         mydb.commit()
         print("----------")
+
+    ## -- Pulling from DB and scanning -- ##
+
+        mycursor.execute("SELECT * FROM " + targetIPinput + " INTO OUTFILE 'tmp'") ## writes to /var/lib/mysql/hackbox_ip_db/tmp
+
+        print('--')
+        print(targetIPinput)
+
+        #print(ippull)
+        #f = open("tmp", "w")
+        #f.write(ippull)
+
+        f = open("/var/lib/mysql/hackbox_ip_db/tmp", "r")
+        print(f.read())
+
+        ## this will output the ports stored. Now need to write AI/if commands for detecting ports
+        ## ex: if 22 in tmp:
+        ## then protocolcrack ssh or soemthing
+
+
+    ## cleaning up ##
+
+        #removing tmp cause I dont know how to overwrite the file with mariadb yet :(
+        os.system(" rm -rf /var/lib/mysql/hackbox_ip_db/tmp")
 
     elif '.' in statement:
         ipsummon = statement
@@ -107,8 +140,13 @@ while True:
         mycursor.execute("USE hackbox_ip_db")
         mycursor.execute("SELECT * FROM " + ipsummoninput)
 
+
+
+
+
+
         ## need to beable to put this ^^ in variable and then grep the output for only the numbers ports and type (tcp/udp) so that can be sent to a attack program
-        print(dbpull)
+        #print(dbpull)
         # This code below allows all data to be viewed in the db
         for x in mycursor:
             print (x)

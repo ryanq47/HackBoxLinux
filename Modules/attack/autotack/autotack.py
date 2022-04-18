@@ -20,7 +20,7 @@ import subprocess as sp
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
-  password="-Pokemon1"
+  password="PASSWORD"
   )
 mycursor = mydb.cursor()
 ## -- -- ##

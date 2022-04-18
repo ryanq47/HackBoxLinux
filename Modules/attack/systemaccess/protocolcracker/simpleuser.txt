@@ -21,3 +21,4 @@ support
 aloha
 remote
 postgres
+pi

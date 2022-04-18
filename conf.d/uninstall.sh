@@ -7,6 +7,8 @@ read packman
 $packman remove thc-hydra
 $packman remove dsniff
 #$packman remove python3 -- leaving python because it's usually needed on linux for something
+$packman remove mariadb
+$packman remove mariadb-server
 
 #python -m pip uninstall speechrecognition
 python -m pip uninstall pyttsx3

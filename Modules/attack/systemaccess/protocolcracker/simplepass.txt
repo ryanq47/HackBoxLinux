@@ -12,6 +12,7 @@ support
 !QAZ2wsx
 !QAZxsw2
 0123456789
+111111
 123123
 123123123
 123321
@@ -38,7 +39,9 @@ support
 789456123
 987654321
 P@ssw0rd
+p@ssw0rd
 Password1
+password123
 QWErty123
 Qwer1234
 Qwerty1
@@ -60,3 +63,7 @@ qwerty123
 qwerty12345
 qwertyuiop
 zxcvbnm
+welcome
+letmein
+iloveyou
+raspberry

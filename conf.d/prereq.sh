@@ -3,9 +3,11 @@
 echo "Enter your package manager"
 read packman
 ## Program install
-$packman install dsniff
-$packman install thc-hydra
-$packman install python3
+$packman install dsniff -y
+$packman install thc-hydra -y
+$packman install python3 -y
+$packman install mariadb -y
+$packman install mariadb-server -y
 
 ## Python Install
 pip3 install --upgrade pip setuptools wheel

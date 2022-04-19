@@ -11,6 +11,8 @@ Alright now to the fun stuff:
 ### Attack Mode: For offensive security <br/>
 - ####   System Access: All Sorts of ways to get into a system! <br/>
     -- Protocol Cracker: A hydra based bruteforce program to brute force logins, Note!: It is fairly slow and is best to use on simple/default passwords only 
+- ####   AutoTack: An automated scanner, and attacker! <br/>
+    -- AutoTack is a combination of everyhing in HackBox. It uses other modules code (such as protocol cracker) to scan, store and attack targets automatically. Currenlty, only bruteforce attacks are supported, but more are coming!
 
 - ####   Denial of Service: Preventing people from being productive <br/>
     -- MITM ArpSpoof: A dsniff powered tool that will perform a MITM Arp attack, denying any internet to the selected device  

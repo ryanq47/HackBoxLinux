@@ -44,6 +44,10 @@ print('### --- Python Files: --- ###')
 os.system('ls Modules/scriptrunner/scripts/ | grep .py')
 print('--')
 
+print('### --- Local Reverse Shells: --- ###')
+os.system('ls Modules/scriptrunner/scripts/ | grep _rev')
+print('--')
+
 print('SCRIPTRUNNER: What should I run?')
 statement = input("").lower()
 
@@ -61,6 +65,12 @@ while True:
 
     # -- Shell --
     elif '.sh' in statement:
+        print("")
+        print('running', statement)
+
+        os.system('bash Modules/scriptrunner/scripts/'+statement)
+        print("")
+    elif '_rev' in statement:
         print("")
         print('running', statement)
 

@@ -11,6 +11,8 @@ Alright now to the fun stuff:
 ### Attack Mode: For offensive security <br/>
 - ####   System Access: All Sorts of ways to get into a system! <br/>
     -- Protocol Cracker: A hydra based bruteforce program to brute force logins, Note!: It is fairly slow and is best to use on simple/default passwords only 
+- ####   AutoTack: An automated scanner, and attacker! <br/>
+    -- AutoTack is a combination of everyhing in HackBox. It uses other modules code (such as protocol cracker) to scan, store and attack targets automatically. Currenlty, only bruteforce attacks are supported, but more are coming!
 
 - ####   Denial of Service: Preventing people from being productive <br/>
     -- MITM ArpSpoof: A dsniff powered tool that will perform a MITM Arp attack, denying any internet to the selected device  
@@ -30,3 +32,12 @@ Alright now to the fun stuff:
     -- UserCheck: A simple module that will check where a username is being used 
 
 -   -- Keylogger: Uhhh it logs keys locally, be careful using this. 
+
+
+
+## Remote Access
+- Through netcat, you can forward a remote HackBox instance to your local machine, no install needed!
+    To do this, on your Host machine, run nc -e ./HackBox.py IPADDRESS PORT
+    Then on your local machine, run nc -nvlp PORT
+    A hackbox instance should then appear on screen
+    Note: Local attacks shouldn't work if doing this, as HackBox is running on the Remote Machine, not locally

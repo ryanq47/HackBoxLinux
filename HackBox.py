@@ -76,7 +76,7 @@ s)Scriptrunner
 h)Help
 
 
-              """)
+If connecting through netcat, type any command below to run on local system:          """)
 
 
 
@@ -157,10 +157,10 @@ while True:
 
     #This is a loop that allows for any value in CMD to be checked, and run MUST GO LAST
     elif any((c in NETWORK) for c in NETWORK):
-        print('---------------------------------------------------')
+        #print('---------------------------------------------------')
         os.system(statement)
-        print('---------------------------------------------------')
-        print("Anything else I can do for you?")
+        print('----')
+        #print("Anything else I can do for you?")
 #------------------------------------------------------------------------------
     else:
         print('invalid command - type new for standard shell')

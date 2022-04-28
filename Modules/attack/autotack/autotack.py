@@ -128,19 +128,19 @@ while True:
         beginattack = input().lower()
         if 'y' in beginattack:
 ## Target Storage + Ip storage for modules
-            targets = open("Modules/attack/autotack/exploits/targets_tmp", "w")
+            targets = open("Modules/attack/autotack/autotack_exploits/targets_tmp", "w")
             targets.write(attackList)
             targets.close
 
-            targets = open("Modules/attack/autotack/exploits/targets_tmp", "r")
+            targets = open("Modules/attack/autotack/autotack_exploits/targets_tmp", "r")
             print(targets.read())
             targets.close
 
-            iptargets  = open("Modules/attack/autotack/exploits/iptargets_tmp", "w")
+            iptargets  = open("Modules/attack/autotack/autotack_exploits/iptargets_tmp", "w")
             iptargets.write(targetIP)
             iptargets.close
 
-            iptargets  = open("Modules/attack/autotack/exploits/iptargets_tmp", "r")
+            iptargets  = open("Modules/attack/autotack/autotack_exploits/iptargets_tmp", "r")
             print(iptargets.read())
             iptargets.close
         ## -- Module Integration -- ## -- maybe have attack results saved somewhere, maybe in db???

@@ -58,8 +58,8 @@ while True:
                      
                      print("""
 
-a)Protocol Cracker
-b)Netcat Backdoor - In Progress
+a)Protocol Cracker (Login Bruteforcing)
+b)Eternal Blue
 c)*Coming Soon* ( HashCat? - set up similar to protocl cracker?)
 d)AutoTack
 ---------------
@@ -74,7 +74,7 @@ q) quit
 
                      elif statement2=="b":
                             os.system('clear')
-                            exec(open('modules/').read())   
+                            exec(open('Modules/attack/systemaccess/eternalblue/module_eternalblue.py').read())
 
                      elif statement2=="c":
                             os.system('clear')

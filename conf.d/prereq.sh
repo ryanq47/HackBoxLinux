@@ -9,6 +9,16 @@ $packman install python3 -y
 $packman install mariadb -y
 $packman install mariadb-server -y
 
+
+
+##python2 install
+$packman install python2.7 -y
+wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+python2 get-pip.py
+pip install --upgrade pip
+pip install --upgrade setuptools
+pip2 install impacket
+
 ## Python Install
 pip3 install --upgrade pip setuptools wheel
 

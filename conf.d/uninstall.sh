@@ -10,6 +10,9 @@ $packman remove dsniff
 $packman remove mariadb
 $packman remove mariadb-server
 
+#py2
+pip2 uninstall impacket
+
 #python -m pip uninstall speechrecognition
 python -m pip uninstall pyttsx3
 python -m pip uninstall wikipedia

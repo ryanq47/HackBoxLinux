@@ -1,3 +1,4 @@
+# ProtocolCracker V 1.1 4/29/22
 #!/usr/bin/env python3
 #SSH cracker
 
@@ -7,17 +8,33 @@ import sys
 
 
 
-print("Protocol Cracker - powered by Hydra")
+print("""
+
+____________ _____ _____ _____ _____ _____ _       _____ ______  ___  _____  _   __ ___________ 
+| ___ \ ___ \  _  |_   _|  _  /  __ \  _  | |     /  __ \| ___ \/ _ \/  __ \| | / /|  ___| ___ \
+
+| |_/ / |_/ / | | | | | | | | | /  \/ | | | |     | /  \/| |_/ / /_\ \ /  \/| |/ / | |__ | |_/ /
+|  __/|    /| | | | | | | | | | |   | | | | |     | |    |    /|  _  | |    |    \ |  __||    / 
+| |   | |\  \ \_/ / | | \ \_/ / \__/\ \_/ / |____ | \__/\| |\ \| | | | \__/\| |\  \| |___| |\ \ 
+\_|   \_| \_|\___/  \_/  \___/ \____/\___/\_____/  \____/\_| \_\_| |_/\____/\_| \_/\____/\_| \_|
+
+Powered by THC-hydra
+                                                                                                
+		""")
 
 print("""
 OPTIONS 
-a)BruteForce/Dict Attack - Powered By Hydra 
-b)?? maybe a blank cmd to log in
-c)Help
-d)Back
-e)Exit/Quit
+a) BruteForce/Dictionary Attack - Powered By Hydra \n
+---------------\n
+h) Help
+w) quit to Attack Mode
+q) Exit to HackBox\n
+---------------\n
+x) Attack Mode
+y) Defense Mode
+z) Recon Mode\n
 
-              """)
+Enter an option:              """)
               
 statement = input("").lower()
 
@@ -65,5 +82,34 @@ while True:
 #					ex: hydra -l johndoe -p p@ssw0rd ssh://127.0.0.1
 			
 
+# ----------- moving around ---------------------#
+	elif statement=="h":
+		print("""\n
+ProtocolCracker! 
+
+ProtocolCracker is a bruteforce module, able to bruteforce nearly any protocol you can think of. This is all thanks to THC-hydra, which is the backend to  this module. Most of the time, using hydra in the terminal is easier, but if you need a quick attack, this will do the trick. 
+
+Note: 2 default wordlists are supplied, 
+	- simpleuser.txt - A short list of common usernames
+	- simplepass.txt - A short list of common passwords
+				""")
+	elif statement=="w":
+		exec(open('Modules/attack/Attack.py').read()) 
+	elif statement=="q":
+		os.system('clear')
+		exec(open('HackBox.py').read())   
+		ans = None
+# ------------ Mode Switch ----------------------#
+	elif statement=="x":
+		exec(open('Modules/attack/Attack.py').read()) 
+	elif statement=="y":
+		exec(open('Modules/defense/Defense.py').read()) 
+	elif statement=="z":
+		exec(open('Modules/recon/Recon.py').read()) 
 	else:
-		print('Invalid Option, please try again')
+		print("\nOption not found, type help for help")
+		print("Choose an option:")
+	
+	statement = input("").lower()		
+#print('HackBox:')	
+		

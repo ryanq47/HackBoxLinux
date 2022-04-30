@@ -1,4 +1,4 @@
-Beta 1.0 - Functional but missing pieces - explore the Proof Of Concept branch for latest updates
+Beta 1.1 - Functional, with new modules, but not production ready - explore the Proof Of Concept branch for latest updates!
 
 Disclaimer! This software is provided for educational use only! I do not take responsibility for any illegal, malicious, or unethical acts performed using this software!
 

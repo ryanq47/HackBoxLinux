@@ -28,6 +28,7 @@ print("Recon mode activated, type help for help")
 print("""
 OPTIONS 
 a) Surveillance
+b) Port Scanner
 
 
 ---------------\n
@@ -83,9 +84,7 @@ Enter Option:                                   """)
 			elif statement2=="b":
 				os.system('clear')
 				exec(open('Modules/recon/surveillance/usercheck.py').read())   
-			elif statement2=="c":
-				os.system('clear')
-				exec(open('###').read())  
+
 				ans = None
 			# ----------- moving around ---------------------#
 			elif statement2=="h":
@@ -110,7 +109,8 @@ Enter Option:                                   """)
 			
 
 	elif statement=="b":
-		print("\nKeylogger")
+			os.system('clear')
+			exec(open('Modules/recon/scanner/scanner.py').read())  
 
 
 # ----------- moving around ---------------------#

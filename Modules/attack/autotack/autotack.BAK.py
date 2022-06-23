@@ -10,17 +10,27 @@
 ## Dependencies: Nmap
 
 import os
-#import mysql.connector
-import bedb 
+import mysql.connector
 import subprocess as sp
 
 ## -- Defining Vars -- ##
-DB_name = "hackbox_db"
-TABLE_name = "hackbox_ip_table"
 
 
 ## -- global vars -- ##
-
+print("Before using AutoTack, you need to log into the DB\n")
+print('Enter SQL Username:\n')
+SQLuser = input()
+print('\nEnter SQL password:\n')
+SQLpassword = input()
+## -- SQL connection -- ##
+mydb = mysql.connector.connect(
+  host="localhost",
+  user=SQLuser,
+  password=SQLpassword
+  )
+mycursor = mydb.cursor()
+## -- -- ##
+os.system('systemctl start mariadb')
 os.system('clear')
 
 print(r"""
@@ -40,6 +50,9 @@ OPTIONS
 a) Scan and Can (Nmap + Common Password Bruteforce)
     Note: Small issue with -Pn flag preventing it from being used 
 
+
+i) Install: Run First time only! This creates the database
+    Note: type 'delete db' to drop the DB
 
 
 ---------------\n
@@ -72,61 +85,51 @@ while True:
 		targetIP = input('Enter target IP address:')
         	#print(targetIP)
 
-
 		nmapFLAGS = input('Enter additional NMAP flags - default are -sS and -Pn; syntax: "-a -T 4"')
 		print("This may take a minute...")
 		print("-----Open Ports-----")
 
         	## This code is running nmap scan, and saving it as the variable scanresult (need to import subprecess)
         	## note: stdout is piped through grep to filter by only numbers, then get rid of the "starting Nmap" message becuase it takes up alot of space
-        	
-        	
-		## yes this is jank... I had it written out for grep so it's gonna stay that way :)
-		scanresult = sp.getoutput('nmap ' + targetIP +' ' + nmapFLAGS + ' | grep -e "[0-9]*/" | grep -v "Starting" |grep -o "[0-9]*"')
-		
-			# ideas:
-			#scanresult = sp.getoutput('nmap ' + targetIP +' ' + nmapFLAGS + ' | grep -e "[0-9]*/" | grep -v "Starting" | tee Modules/attack/autotack/autotack_tmp/scan_tmp') # |grep -o "[0-9]*"') # --> issue with PN
-			#scanresult_services = open("Modules/attack/autotack/autotack_tmp/scan_tmp", "r")
-			
-       		## for exluding everyhting but port numbers: |grep -o "[0-9]*"
-		
-			
-		#print(scanresult_services.read())
+
+		scanresult = sp.getoutput('nmap ' + targetIP +' ' + nmapFLAGS + ' | grep -e "[0-9]*/" | grep -v "Starting"') # --> issue with PN
+			#attackList = 
+       			## for exluding everyhting but port numbers: |grep -o "[0-9]*"
+
+## -- conversion from . to _ -- ##
+
+		print(scanresult)
+		# --> need to optimize?/make a def
+        	## convert '.' to '_' due to sql not accepting '.'
+		convert = targetIP
+		convert = convert.replace('.','_')
+		targetIPinput = convert
 
 
 
-		print('scanresult= ', scanresult)
-		#print('scanresult_port = ', scanresult_ports)
-		
-		## bedb plugin
-		#targetIP = ""
-		#ports = ""
-		services = ""
-		
-		data = {
 
-            		'ip_addr' : targetIP,
-            		'open_ports' : "",
-            		'services' : ""
-		}
-		
-		DB_name = "hackbox_db"
-		TABLE_name = "hackbox_ip_table"
-		COLUMN_name = targetIP
-		
-		bedb.writeCOLUMN(DB_name, TABLE_name, targetIP, data)
-		bedb.readCOLUMN(DB_name,TABLE_name, targetIP, 'ip_addr')
-		bedb.readCOLUMN(DB_name,TABLE_name, targetIP, 'open_ports')
-		print(bedb.readCOLUMN.key_data) ## note! this is a variable under readCOLUMN, it does its own conversion from a Nonetype to a string, so if you need the string of an output, just use the .key_data
-		attackList = bedb.readCOLUMN.key_data
-		
-		
+## --- Sql Interaction --- ##
+
+		mycursor.execute("USE hackbox_ip_db")
+        #mycursor.execute("INSERT INTO ip_addresses (ipaddress, port) VALUES (" + targetIP + "," + scanresult + ");")
+        	## --> Okay this works... but drops the DB previous to  scan, which is  good and how I wanted it to work I think?
+		mycursor.execute("DROP TABLE " + targetIPinput)
+		mycursor.execute("CREATE TABLE " + targetIPinput + " (OpenPorts text)")
+		mycursor.execute("INSERT INTO " + targetIPinput + "(OpenPorts) VALUES ('" + scanresult + "')")
+
+		mydb.commit()
 		print("----------")
 
 ## -- Pulling from DB and scanning -- ##
+        	#removing tmp below incase it already exists. cant overwrite, its a limitation of sql
+		os.system(" rm -rf /var/lib/mysql/hackbox_ip_db/tmp")
+		mycursor.execute("SELECT * FROM " + targetIPinput + " INTO OUTFILE 'tmp'") ## writes to /var/lib/mysql/hackbox_ip_db/tmp
 
-        	# This pulls the port number from the db - in future will add service puller too (ex ssh)
-		###attackList = sp.getoutput('cat /var/lib/mysql/hackbox_ip_db/tmp | grep -o "[0-9]"*')
+        	#print('--')
+
+
+        	## This pulls the port number from the db - in future will add service puller too (ex ssh)
+		attackList = sp.getoutput('cat /var/lib/mysql/hackbox_ip_db/tmp | grep -o "[0-9]"*')
 		#print(attackList)
 
         	##print('Open Ports are:')
@@ -157,7 +160,7 @@ while True:
 ## -- Module Integration -- ## 
                 	## I know this isn't very clean,but its all I got currently
 			#print(attackList) --> troubleshoting to view attack list
-			while True: ## eventually turn these into functions
+			while True:
 				if '21' in attackList: # or '22' or '23' or '80' or '3389'
 					os.system('python3 Modules/attack/autotack/exploits/bruteforce_hydra.py')
 				elif '22' in attackList: # or '22' or '23' or '80' or '3389'
@@ -192,11 +195,23 @@ while True:
 		
 ## -- DB IP lookup -- ##
 	elif '.' in statement:
-		targetIP = statement
-		print('Open Ports:')
-		bedb.readCOLUMN(DB_name,TABLE_name, targetIP, 'open_ports')
-		print('Services:')
-		bedb.readCOLUMN(DB_name,TABLE_name, targetIP, 'services')
+		ipsummon = statement
+        	#print(scanresult)
+        	## convert '.' to '_' due to sql not accepting '.'
+		convertback = ipsummon
+		convertback = convertback.replace('.','_')
+		ipsummoninput = convertback
+        	#print(ipsummoninput)
+		## Pulling data from Database - Should probably turn this into a  function to call 
+		os.system('rm -rf /var/lib/mysql/hackbox_ip_db/ipcall_tmp')
+		mycursor.execute("USE hackbox_ip_db")
+		mycursor.execute("SELECT * FROM " + ipsummoninput + " INTO OUTFILE 'ipcall_tmp'")
+		ipcall = sp.getoutput('cat /var/lib/mysql/hackbox_ip_db/ipcall_tmp | grep -e "[0-9]"*/*')
+		print('\n')
+		print(ipsummon + "'s open ports and services:")
+		print('----------')
+		print(ipcall)
+		print('----------')
 
 
 
@@ -205,7 +220,8 @@ while True:
         ## need to beable to put this ^^ in variable and then grep the output for only the numbers ports and type (tcp/udp) so that can be sent to a attack program
         #print(dbpull)
         # This code below allows all data to be viewed in the db
-
+		for x in mycursor:
+			print (x)
 ## -- Delete DataBase -- ##
 	elif statement =='delete db':
 		print("Are you sure you want to delete the DB? (y/N)")
